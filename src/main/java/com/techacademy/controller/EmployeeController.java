@@ -49,6 +49,45 @@ public class EmployeeController {
         return "employees/detail";
     }
 
+    //従業員更新画面の表示
+    @GetMapping("/{code}/update")
+    public String edit(@PathVariable String code, Model model,@ModelAttribute Employee employee) {
+        employee = employeeService.findByCode(code);
+        model.addAttribute("employee", employee);
+
+        return "employees/update";
+    }
+
+    // 従業員更新処理
+    @PostMapping(value = "/{code}/update")
+    public String update(@Validated Employee employee, BindingResult res, Model model) {
+        // 入力チェック
+        if (res.hasErrors()) {
+            return edit(null,model,employee);
+        }
+
+        // 論理削除を行った従業員番号を指定すると例外となるためtry~catchで対応
+        // (findByIdでは削除フラグがTRUEのデータが取得出来ないため)
+        try {
+            ErrorKinds result = employeeService.save(employee);
+
+            if (ErrorMessage.contains(result)) {
+                model.addAttribute(ErrorMessage.getErrorName(result), ErrorMessage.getErrorValue(result));
+                return edit(null,model,employee);
+            }
+
+        } catch (DataIntegrityViolationException e) {
+            model.addAttribute(ErrorMessage.getErrorName(ErrorKinds.DUPLICATE_EXCEPTION_ERROR),
+                    ErrorMessage.getErrorValue(ErrorKinds.DUPLICATE_EXCEPTION_ERROR));
+            return edit(null,model,employee);
+        }
+        //従業員登録
+        employeeService.save(employee);
+
+        return "redirect:/employees/{code}/update";
+    }
+
+
     // 従業員新規登録画面
     @GetMapping(value = "/add")
     public String create(@ModelAttribute Employee employee) {
