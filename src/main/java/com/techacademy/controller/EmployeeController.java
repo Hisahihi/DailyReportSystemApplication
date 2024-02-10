@@ -95,7 +95,7 @@ public class EmployeeController {
         }
 
 
-        return "redirect:/employees/{code}/update";
+        return "redirect:/employees";
     }
 
 
