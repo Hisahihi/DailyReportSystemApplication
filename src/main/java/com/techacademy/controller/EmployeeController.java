@@ -52,7 +52,9 @@ public class EmployeeController {
     //従業員更新画面の表示
     @GetMapping("/{code}/update")
     public String edit(@PathVariable String code, Model model,@ModelAttribute Employee employee) {
+        if(employee==null) {//入力エラーがあった場合はemployeeオブジェクトの箱ににエラーをもってきてエラー表示を行うためのif
         employee = employeeService.findByCode(code);
+        }
         model.addAttribute("employee", employee);
 
         return "employees/update";
@@ -61,28 +63,37 @@ public class EmployeeController {
     // 従業員更新処理
     @PostMapping(value = "/{code}/update")
     public String update(@Validated Employee employee, BindingResult res, Model model) {
+
+        if ("".equals(employee.getPassword())){//パスワードが空の場合→テーブルに登録されているパスワードを取得して設定する
+
+            Employee update =employeeService.findByCode(employee.getCode());
+            //・テーブルから既存のパスワードを取得する（ユーザが入力した従業員情報の中の code をキーとして取得）
+            employee.setPassword(update.getPassword());
+            //・ユーザが入力した従業員情報の中に取得した既存のパスワードを設定する
+            }
+
         // 入力チェック
         if (res.hasErrors()) {
-            return edit(null,model,employee);
+            return edit(employee.getCode(),model,employee);
         }
+
 
         // 論理削除を行った従業員番号を指定すると例外となるためtry~catchで対応
         // (findByIdでは削除フラグがTRUEのデータが取得出来ないため)
         try {
-            ErrorKinds result = employeeService.save(employee);
+            ErrorKinds result = employeeService.update(employee);
 
             if (ErrorMessage.contains(result)) {
                 model.addAttribute(ErrorMessage.getErrorName(result), ErrorMessage.getErrorValue(result));
-                return edit(null,model,employee);
+                return edit(employee.getCode(),model,employee);
             }
 
         } catch (DataIntegrityViolationException e) {
             model.addAttribute(ErrorMessage.getErrorName(ErrorKinds.DUPLICATE_EXCEPTION_ERROR),
                     ErrorMessage.getErrorValue(ErrorKinds.DUPLICATE_EXCEPTION_ERROR));
-            return edit(null,model,employee);
+            return edit(employee.getCode(),model,employee);
         }
-        //従業員登録
-        employeeService.save(employee);
+
 
         return "redirect:/employees/{code}/update";
     }
