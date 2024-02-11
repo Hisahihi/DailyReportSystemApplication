@@ -56,10 +56,19 @@ public class EmployeeService {
     @Transactional
     public ErrorKinds update(Employee employee) {
 
-        // パスワードチェック
-        ErrorKinds result = employeePasswordCheck(employee);
-        if (ErrorKinds.CHECK_OK != result) {
-            return result;
+        if ("".equals(employee.getPassword())) {// パスワードが空の場合→テーブルに登録されているパスワードを取得して設定する
+
+            Employee update = findByCode(employee.getCode());
+            // ・テーブルから既存のパスワードを取得する（ユーザが入力した従業員情報の中の code をキーとして取得
+            employee.setPassword(update.getPassword());
+            // ・ユーザが入力した従業員情報の中に取得した既存のパスワードを設定する
+        } else {
+
+            // パスワードチェック
+            ErrorKinds result = employeePasswordCheck(employee);
+            if (ErrorKinds.CHECK_OK != result) {
+                return result;
+            }
         }
 
         employee.setDeleteFlg(false);
