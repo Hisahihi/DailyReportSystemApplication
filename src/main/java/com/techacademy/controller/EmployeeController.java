@@ -83,6 +83,7 @@ public class EmployeeController {
             }
 
         } catch (DataIntegrityViolationException e) {
+           // e.printStackTrace();
             model.addAttribute(ErrorMessage.getErrorName(ErrorKinds.DUPLICATE_EXCEPTION_ERROR),
                     ErrorMessage.getErrorValue(ErrorKinds.DUPLICATE_EXCEPTION_ERROR));
             return edit(employee.getCode(),model,employee);

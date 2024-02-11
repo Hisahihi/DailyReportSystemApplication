@@ -56,11 +56,13 @@ public class EmployeeService {
     @Transactional
     public ErrorKinds update(Employee employee) {
 
-        if ("".equals(employee.getPassword())) {// パスワードが空の場合→テーブルに登録されているパスワードを取得して設定する
+        // ・テーブルから既存のパスワードを取得する（ユーザが入力した従業員情報の中の code をキーとして取得
+        Employee info = findByCode(employee.getCode());// info変数にDBに登録された情報が入っている
 
-            Employee update = findByCode(employee.getCode());
-            // ・テーブルから既存のパスワードを取得する（ユーザが入力した従業員情報の中の code をキーとして取得
-            employee.setPassword(update.getPassword());
+        // パスワードが空の場合→テーブルに登録されているパスワードを取得して設定する
+        if ("".equals(employee.getPassword())) {
+
+            employee.setPassword(info.getPassword());
             // ・ユーザが入力した従業員情報の中に取得した既存のパスワードを設定する
         } else {
 
@@ -74,7 +76,8 @@ public class EmployeeService {
         employee.setDeleteFlg(false);
 
         LocalDateTime now = LocalDateTime.now();
-        employee.setCreatedAt(now);
+
+        employee.setCreatedAt(info.getCreatedAt());
         employee.setUpdatedAt(now);
 
         employeeRepository.save(employee);
