@@ -27,9 +27,9 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr th:each="reports:${reportsList}">
-                                            <td class="align-middle" th:text="${reports.name}"></td>
-                                            <td class="align-middle" th:text="${reports.updated_at}"></td>
+                                        <tr th:each="reports:${reportList}">
+                                            <td class="align-middle" th:text="${reports.employee.name}"></td>
+                                            <td class="align-middle" th:text="${reports.updatedAt}"></td>
                                             <td class="align-middle" th:text="${reports.title}"></td>
                                             <td class="align-middle"><a th:href="@{/reports/{id}/(id=${reports.id})}" class="btn btn-primary">詳細</a></td>
                                         </tr>

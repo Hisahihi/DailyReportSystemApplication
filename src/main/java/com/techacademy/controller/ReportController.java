@@ -17,7 +17,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.techacademy.constants.ErrorKinds;
 import com.techacademy.constants.ErrorMessage;
 
-import com.techacademy.entity.Employee;
+
+import com.techacademy.entity.Report;
 import com.techacademy.service.ReportService;
 import com.techacademy.service.UserDetail;
 
@@ -32,34 +33,37 @@ public class ReportController {
         this.reportService = reportService;
     }
 
-    // 従業員一覧画面
+    // 日報一覧画面
     @GetMapping
     public String list(Model model) {
-     return "reports/list";
-    }
-     /**   model.addAttribute("listSize", reportService.findAll().size());
+        model.addAttribute("listSize", reportService.findAll().size());
         model.addAttribute("reportList", reportService.findAll());
 
+        return "reports/list";
 
-
-    // 従業員詳細画面
-    @GetMapping(value = "/{code}/")
-    public String detail(@PathVariable String code, Model model) {
-
-        model.addAttribute("report", reportService.findById(id));
-        return "report/detail";
     }
 
-    //従業員更新画面の表示
-    @GetMapping("/{code}/update")
-    public String edit(@PathVariable String id, Model model,@ModelAttribute Report report) {
-        if(id !=null) {
+    // 日報詳細画面
+    @GetMapping(value = "/{id}/")
+    public String detail(@PathVariable Integer id, Model model) {
+    return "reports/detail";
+    }
+    /**    model.addAttribute("report", reportService.findById(id));
+
+*/
+
+    //日報更新画面の表示
+    @GetMapping("/{id}/update")
+    public String edit(@PathVariable Integer id, Model model, @ModelAttribute Report report) {
+         return "reports/update";
+    }
+    /**    if(id !=null) {
         //入力エラーがあった場合はemployeeオブジェクトの箱ににエラーをもってきてエラー表示を行うためのif
         report = reportService.findById(id);
         }
         model.addAttribute("report", report);
 
-        return "report/update";
+
     }
 
     // 従業員更新処理
@@ -93,15 +97,15 @@ public class ReportController {
 
         return "redirect:/report";
     }
+*/
 
-
-    // 従業員新規登録画面
+    // 日報新規登録画面
     @GetMapping(value = "/add")
     public String create(@ModelAttribute Report report) {
 
-        return "report/new";
+        return "reports/new";
     }
-
+/**
     // 従業員新規登録処理
     @PostMapping(value = "/add")
     public String add(@Validated Report report, BindingResult res, Model model) {

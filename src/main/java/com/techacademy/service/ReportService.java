@@ -99,12 +99,12 @@ public class ReportService {
 
         return ErrorKinds.SUCCESS;
     }
-
+*/
     // 従業員一覧表示処理
     public List<Report> findAll() {
         return reportRepository.findAll();
     }
-
+/**
     // 1件を検索
     public Report findById(String id) {
         // findByIdで検索
