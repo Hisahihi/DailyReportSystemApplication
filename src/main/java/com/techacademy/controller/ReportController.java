@@ -35,9 +35,11 @@ public class ReportController {
 
     // 日報一覧画面
     @GetMapping
-    public String list(Model model) {
+    public String list(Model model,@AuthenticationPrincipal UserDetail userDetail) {
+        //userdetailの中に必要な情報は入ってきている。ここから各画面へ情報を引き渡していく
         model.addAttribute("listSize", reportService.findAll().size());
         model.addAttribute("reportList", reportService.findAll());
+
 
         return "reports/list";
 
@@ -46,10 +48,12 @@ public class ReportController {
     // 日報詳細画面
     @GetMapping(value = "/{id}/")
     public String detail(@PathVariable Integer id, Model model) {
-    return "reports/detail";
-    }
-    /**    model.addAttribute("report", reportService.findById(id));
 
+        model.addAttribute("report", reportService.findById(id));
+
+        return "reports/detail";
+       }
+    /**
 */
 
     //日報更新画面の表示
@@ -101,7 +105,9 @@ public class ReportController {
 
     // 日報新規登録画面
     @GetMapping(value = "/add")
-    public String create(@ModelAttribute Report report) {
+    public String create(Report report, Model model,UserDetail userDetail) {
+        report.setEmployee(userDetail.getEmployee());
+        model.addAttribute("reports",report);
 
         return "reports/new";
     }

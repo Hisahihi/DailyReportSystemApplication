@@ -104,16 +104,16 @@ public class ReportService {
     public List<Report> findAll() {
         return reportRepository.findAll();
     }
-/**
+
     // 1件を検索
-    public Report findById(String id) {
+    public Report findById(Integer id) {
         // findByIdで検索
         Optional<Report> option = reportRepository.findById(id);
         // 取得できなかった場合はnullを返す
         Report report = option.orElse(null);
         return report;
     }
-
+/**
     // 従業員パスワードチェック
     private ErrorKinds reportPasswordCheck(Report report) {
 
