@@ -16,8 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.techacademy.constants.ErrorKinds;
 import com.techacademy.constants.ErrorMessage;
-
-
+import com.techacademy.entity.Employee;
 import com.techacademy.entity.Report;
 import com.techacademy.service.ReportService;
 import com.techacademy.service.UserDetail;
@@ -37,10 +36,12 @@ public class ReportController {
     @GetMapping
     public String list(Model model,@AuthenticationPrincipal UserDetail userDetail) {
         //userdetailの中に必要な情報は入ってきている。ここから各画面へ情報を引き渡していく
-        model.addAttribute("listSize", reportService.findAll().size());
-        model.addAttribute("reportList", reportService.findAll());
-
-
+        if (userDetail  !=null){
+            model.addAttribute("listSize", reportService.findAll().size());
+            model.addAttribute("reportList", reportService.findAll( ));
+        }else {
+            return "login/login";
+        }
         return "reports/list";
 
     }
@@ -105,10 +106,11 @@ public class ReportController {
 
     // 日報新規登録画面
     @GetMapping(value = "/add")
-    public String create(Report report, Model model,UserDetail userDetail) {
-        report.setEmployee(userDetail.getEmployee());
-        model.addAttribute("reports",report);
+    public String create(Model model,@AuthenticationPrincipal UserDetail userDetail) {
 
+        Employee employee = userDetail.getEmployee();
+
+        model.addAttribute("employee", employee);
         return "reports/new";
     }
 /**
