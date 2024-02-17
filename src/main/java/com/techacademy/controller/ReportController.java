@@ -54,8 +54,7 @@ public class ReportController {
 
         return "reports/detail";
        }
-    /**
-*/
+
 
     //日報更新画面の表示
     @GetMapping("/{id}/update")
@@ -106,23 +105,31 @@ public class ReportController {
 
     // 日報新規登録画面
     @GetMapping(value = "/add")
-    public String create(Model model,@AuthenticationPrincipal UserDetail userDetail) {
+    public String create(@ModelAttribute Report report ,Model model,@AuthenticationPrincipal UserDetail userDetail) {
 
         Employee employee = userDetail.getEmployee();
 
         model.addAttribute("employee", employee);
         return "reports/new";
     }
-/**
-    // 従業員新規登録処理
-    @PostMapping(value = "/add")
-    public String add(@Validated Report report, BindingResult res, Model model) {
 
-        // パスワード空白チェック
-        /*
-         * エンティティ側の入力チェックでも実装は行えるが、更新の方でパスワードが空白でもチェックエラーを出さずに
-         * 更新出来る仕様となっているため上記を考慮した場合に別でエラーメッセージを出す方法が簡単だと判断
-         */
+    // 日報新規登録処理
+    @PostMapping(value = "/add")
+    public String add(@Validated Report report,BindingResult res,@AuthenticationPrincipal UserDetail userDetail,Model model) {
+     // 入力チェック
+        if (res.hasErrors()) {
+            return create(report,model,userDetail);
+        }
+
+        report.setEmployee(userDetail.getEmployee());
+
+        reportService.save(report);
+
+        return "redirect:/reports";
+    }
+
+        //空白チェック
+
     /**
         if ("".equals(report.getPassword())) {
             // パスワードが空白だった場合
@@ -133,10 +140,7 @@ public class ReportController {
 
         }
 
-        // 入力チェック
-        if (res.hasErrors()) {
-            return create(report);
-        }
+
 
         // 論理削除を行った従業員番号を指定すると例外となるためtry~catchで対応
         // (findByIdでは削除フラグがTRUEのデータが取得出来ないため)

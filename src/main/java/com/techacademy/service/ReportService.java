@@ -27,22 +27,9 @@ public class ReportService {
         this.passwordEncoder = passwordEncoder;
     }
 
- /**   // 従業員保存
+    // 従業員保存
     @Transactional
     public ErrorKinds save(Report report) {
-
-        // パスワードチェック
-        ErrorKinds result = reportPasswordCheck(report);
-        if (ErrorKinds.CHECK_OK != result) {
-            return result;
-        }
-
-        // 従業員番号重複チェック
-        if (findById(report.getId()) != null) {
-            return ErrorKinds.DUPLICATE_ERROR;
-        }
-
-        report.setDeleteFlg(false);
 
         LocalDateTime now = LocalDateTime.now();
         report.setCreatedAt(now);
@@ -51,7 +38,7 @@ public class ReportService {
         reportRepository.save(report);
         return ErrorKinds.SUCCESS;
     }
-
+/**
     // 従業員更新
     @Transactional
     public ErrorKinds update(Report report) {
