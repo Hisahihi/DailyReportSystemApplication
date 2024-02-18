@@ -1,5 +1,6 @@
 package com.techacademy.service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -11,6 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.techacademy.constants.ErrorKinds;
+import com.techacademy.entity.Employee;
 import com.techacademy.entity.Report;
 import com.techacademy.repository.ReportRepository;
 import org.springframework.transaction.annotation.Transactional;
@@ -38,27 +40,16 @@ public class ReportService {
         reportRepository.save(report);
         return ErrorKinds.SUCCESS;
     }
-/**
+
     // 従業員更新
     @Transactional
     public ErrorKinds update(Report report) {
 
-        // ・テーブルから既存のパスワードを取得する（ユーザが入力した従業員情報の中の Id をキーとして取得
-        Report info = findById(report.getId());// info変数にDBに登録された情報が入っている
+        // ・テーブルから既存のパスワードを取得する（ユーザが入力した情報の中の Id をキーとして取得
+        Report info = findById(report.getId());
+        // info変数にDBに登録された情報が入っている
 
-        // パスワードが空の場合→テーブルに登録されているパスワードを取得して設定する
-        if ("".equals(report.getPassword())) {
 
-            report.setPassword(info.getPassword());
-            // ・ユーザが入力した従業員情報の中に取得した既存のパスワードを設定する
-        } else {
-
-            // パスワードチェック
-            ErrorKinds result = reportPasswordCheck(report);
-            if (ErrorKinds.CHECK_OK != result) {
-                return result;
-            }
-        }
 
         report.setDeleteFlg(false);
 
@@ -73,10 +64,10 @@ public class ReportService {
 
     // 従業員削除
     @Transactional
-    public ErrorKinds delete(String id, UserDetail userDetail) {
+    public ErrorKinds delete(Integer id, UserDetail userDetail) {
 
         // 自分を削除しようとした場合はエラーメッセージを表示
-        if (id.equals(userDetail.getReport().getId())) {
+        if (id.equals(userDetail.getEmployee().getCode())) {
             return ErrorKinds.LOGINCHECK_ERROR;
         }
         Report report = findById(id);
@@ -86,7 +77,7 @@ public class ReportService {
 
         return ErrorKinds.SUCCESS;
     }
-*/
+
     // 従業員一覧表示処理
     public List<Report> findAll() {
         return reportRepository.findAll();
@@ -100,6 +91,11 @@ public class ReportService {
         Report report = option.orElse(null);
         return report;
     }
+
+    public boolean existsByEmployeeAndReportDate(Employee employee,LocalDate reportDate) {
+        return reportRepository.existsByEmployeeAndReportDate(employee, reportDate);
+    }
+
 /**
     // 従業員パスワードチェック
     private ErrorKinds reportPasswordCheck(Report report) {

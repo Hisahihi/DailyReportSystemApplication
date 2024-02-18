@@ -27,6 +27,7 @@
                                         <div class="col-md-7">
                                         <input class="form-control" type="date" th:field="*{reportDate}" th:errorclass="err" id="reportDate">
                                         <span th:errors="*{reportDate}" class="text-danger"></span>
+                                        <span th:if="${reportDateError} neq null" th:text="${reportDateError}" class="text-danger"></span>
                                     　   </div>
                                     </div>
                                     <div class="mb-3">
@@ -34,6 +35,7 @@
                                         <p class="mb-1"></p>
                                         <div class="col-md-7">
                                         <label><p class="align-middle"th:text="${employee.name}" ></p></label>
+                                        <input  type="hidden" th:field="${employee.code}" >
                                         </div>
                                      </div>
                                      <div class="mb-3">

@@ -51,9 +51,10 @@ public class Report {
     // 内容
     @Column(columnDefinition="LONGTEXT", nullable = false)
     @NotEmpty
+    @Length(max = 600)
     private String content;
 
-    // 社員番号
+    // 従業員番号
     @ManyToOne
     @JoinColumn(name = "employee_code", referencedColumnName = "code", nullable = false)
     private Employee employee;
