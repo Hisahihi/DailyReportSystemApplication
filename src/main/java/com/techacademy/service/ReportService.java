@@ -96,43 +96,6 @@ public class ReportService {
         return reportRepository.existsByEmployeeAndReportDate(employee, reportDate);
     }
 
-/**
-    // 従業員パスワードチェック
-    private ErrorKinds reportPasswordCheck(Report report) {
 
-        // 従業員パスワードの半角英数字チェック処理
-        if (isHalfSizeCheckError(report)) {
-
-            return ErrorKinds.HALFSIZE_ERROR;
-        }
-
-        // 従業員パスワードの8文字～16文字チェック処理
-        if (isOutOfRangePassword(report)) {
-
-            return ErrorKinds.RANGECHECK_ERROR;
-        }
-
-        report.setPassword(passwordEncoder.encode(report.getPassword()));
-
-        return ErrorKinds.CHECK_OK;
-    }
-
-    // 従業員パスワードの半角英数字チェック処理
-    private boolean isHalfSizeCheckError(Report report) {
-
-        // 半角英数字チェック
-        Pattern pattern = Pattern.compile("^[A-Za-z0-9]+$");
-        Matcher matcher = pattern.matcher(report.getPassword());
-        return !matcher.matches();
-    }
-
-    // 従業員パスワードの8文字～16文字チェック処理
-    public boolean isOutOfRangePassword(Report report) {
-
-        // 桁数チェック
-        int passwordLength = report.getPassword().length();
-        return passwordLength < 8 || 16 < passwordLength;
-    }
-*/
 }
 

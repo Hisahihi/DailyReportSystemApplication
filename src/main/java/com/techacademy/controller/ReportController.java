@@ -60,10 +60,11 @@ public class ReportController {
 
     //日報更新画面の表示
     @GetMapping("/{id}/update")
-    public String edit(@PathVariable Integer id, Model model, @ModelAttribute Report report) {
+    public String edit(@PathVariable Integer id, Model model, @ModelAttribute Report report,@AuthenticationPrincipal UserDetail userDetail) {
 
-        if(id !=null) {
         //入力エラーがあった場合はreportオブジェクトの箱にエラーをもってきてエラー表示を行うためのif
+        if(id !=null) {
+
         report = reportService.findById(id);
         }
         //未来日過去日をはじくif
@@ -82,8 +83,23 @@ public class ReportController {
 
         // 入力チェック
         if (res.hasErrors()) {
-            return edit(null,model,report);
+            return edit(null,model,report,userDetail);
 
+        }
+
+        boolean isReportDateError = reportService.existsByEmployeeAndReportDate(userDetail.getEmployee(), report.getReportDate());
+        if(isReportDateError) {
+            model.addAttribute(ErrorMessage.getErrorName(ErrorKinds.DATECHECK_ERROR), ErrorMessage.getErrorValue(ErrorKinds.DATECHECK_ERROR));
+
+        }
+
+        if (isReportDateError || res.hasErrors()) {
+            return edit(id,model,report,userDetail);
+        }
+
+        if(reportService.existsByEmployeeAndReportDate(userDetail.getEmployee(), report.getReportDate())) {
+            model.addAttribute(ErrorMessage.getErrorName(ErrorKinds.DATECHECK_ERROR), ErrorMessage.getErrorValue(ErrorKinds.DATECHECK_ERROR));
+            return edit(id,model,report,userDetail);
         }
         report.setId(id);
         ErrorKinds result = reportService.update(report);
@@ -106,7 +122,7 @@ public class ReportController {
     // 日報新規登録処理
     @PostMapping(value = "/add")
     public String add(@Validated Report report,BindingResult res,@AuthenticationPrincipal UserDetail userDetail,Model model) {
-     // 入力チェック
+     // 入力チェック existsByEmployeeAndReportDateメソッドはReportServiceで定義　具体的なとこはRepositoryを参照
         boolean isReportDateError = reportService.existsByEmployeeAndReportDate(userDetail.getEmployee(), report.getReportDate());
         if(isReportDateError) {
             model.addAttribute(ErrorMessage.getErrorName(ErrorKinds.DATECHECK_ERROR), ErrorMessage.getErrorValue(ErrorKinds.DATECHECK_ERROR));
