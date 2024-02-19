@@ -62,18 +62,19 @@ public class ReportController {
     @GetMapping("/{id}/update")
     public String edit(@PathVariable Integer id, Model model, @ModelAttribute Report report) {
 
-        model.addAttribute("report", reportService.findById(id));
-         return "reports/update";
-    }
-    /**    if(id !=null) {
-        //入力エラーがあった場合はemployeeオブジェクトの箱ににエラーをもってきてエラー表示を行うためのif
+        if(id !=null) {
+        //入力エラーがあった場合はreportオブジェクトの箱にエラーをもってきてエラー表示を行うためのif
         report = reportService.findById(id);
         }
+        //未来日過去日をはじくif
+
         model.addAttribute("report", report);
+
+        return "reports/update";
 
 
     }
-*/
+
     // 日報更新処理
     @PostMapping(value = "/{id}/update")
     public String update(@PathVariable Integer id,@Validated Report report, BindingResult res, Model model,@AuthenticationPrincipal UserDetail userDetail) {
