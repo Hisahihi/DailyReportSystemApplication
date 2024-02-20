@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.techacademy.constants.ErrorKinds;
 import com.techacademy.constants.ErrorMessage;
 import com.techacademy.entity.Employee;
+import com.techacademy.entity.Employee.Role;
 import com.techacademy.entity.Report;
 import com.techacademy.service.ReportService;
 import com.techacademy.service.UserDetail;
@@ -37,13 +38,21 @@ public class ReportController {
     // 日報一覧画面
     @GetMapping
     public String list(Model model,@AuthenticationPrincipal UserDetail userDetail) {
-        //userdetailの中に必要な情報は入ってきている。ここから各画面へ情報を引き渡していく
-        if (userDetail  !=null){
+        //一般ユーザーと管理者ユーザーの切り分けのif
+        userDetail.getEmployee(); //userDetailからもらう
+        Employee emp =userDetail. getEmployee();//もらったものからempに詰め込む
+        emp.getRole();//empから権限を取り出す
+        Role role = emp.getRole();//roleに権限情報を詰め込む
+        //一般ユーザーの時
+        if(role == Employee.Role.GENERAL) {
+            reportService.findByEmployee(emp);
+            model.addAttribute("listSize", reportService.findAll().size());
+            model.addAttribute("reportList", reportService.findByEmployee(emp));
+        }else {
             model.addAttribute("listSize", reportService.findAll().size());
             model.addAttribute("reportList", reportService.findAll( ));
-        }else {
-            return "login/login";
         }
+
         return "reports/list";
 
     }

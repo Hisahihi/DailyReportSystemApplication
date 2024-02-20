@@ -83,6 +83,11 @@ public class ReportService {
         return reportRepository.findAll();
     }
 
+    //従業員の情報をもとに日報検索
+    public List<Report> findByEmployee(Employee employee){
+        return reportRepository.findByEmployee(employee);
+    }
+
     // 1件を検索
     public Report findById(Integer id) {
         // findByIdで検索
