@@ -1,7 +1,8 @@
 package com.techacademy.controller;
 
 
-import java.util.ArrayList;
+
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -79,6 +80,7 @@ public class ReportController {
         }
         //未来日過去日をはじくif
 
+
         model.addAttribute("report", report);
 
         return "reports/update";
@@ -90,12 +92,18 @@ public class ReportController {
     @PostMapping(value = "/{id}/update")
     public String update(@PathVariable Integer id,@Validated Report report, BindingResult res, Model model,@AuthenticationPrincipal UserDetail userDetail) {
 
-
+        //日付変更があるか
+        userDetail.getEmployee();//userDetailがログインユーザの情報をもっているから従業員の情報をもらう
+        Employee date =userDetail. getEmployee();//ログインした従業員情報がdateに詰め込む
+        date.getUpdatedAt();//dateから登録日を取り出す
+       // LocalDateTime ldt = date.getUpdatedAt();//roleに権限情報を詰め込む
         // 入力チェック
         if (res.hasErrors()) {
             return edit(null,model,report,userDetail);
 
         }
+
+       // 108～１２１　上記完成で消去
 
         boolean isReportDateError = reportService.existsByEmployeeAndReportDate(userDetail.getEmployee(), report.getReportDate());
         if(isReportDateError) {
