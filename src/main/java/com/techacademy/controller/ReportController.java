@@ -1,6 +1,7 @@
 package com.techacademy.controller;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,15 +40,15 @@ public class ReportController {
     @GetMapping
     public String list(Model model,@AuthenticationPrincipal UserDetail userDetail) {
         //一般ユーザーと管理者ユーザーの切り分けのif
-        userDetail.getEmployee(); //userDetailからもらう
-        Employee emp =userDetail. getEmployee();//もらったものからempに詰め込む
+        userDetail.getEmployee(); //userDetailがログインユーザの情報をもっているから従業員の情報をもらう
+        Employee emp =userDetail. getEmployee();//ログインした従業員情報がempに詰め込む  クラス名　好きな名前　⁼＝　実際の処理内容（オブジェクト名。クラス名の中にあったメソッド）
         emp.getRole();//empから権限を取り出す
         Role role = emp.getRole();//roleに権限情報を詰め込む
-        //一般ユーザーの時
+        //一般ユーザーと管理者それぞれの場合
         if(role == Employee.Role.GENERAL) {
-            reportService.findByEmployee(emp);
-            model.addAttribute("listSize", reportService.findAll().size());
-            model.addAttribute("reportList", reportService.findByEmployee(emp));
+
+            model.addAttribute("listSize", reportService.findByEmployee(emp).size());//
+            model.addAttribute("reportList", reportService.findByEmployee(emp));//ログインしたユーザーの日報一覧をもってきている
         }else {
             model.addAttribute("listSize", reportService.findAll().size());
             model.addAttribute("reportList", reportService.findAll( ));

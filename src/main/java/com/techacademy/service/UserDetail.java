@@ -17,7 +17,7 @@ public class UserDetail implements UserDetails {
     private final List<SimpleGrantedAuthority> authorities;
 
     public UserDetail(Employee employee) {
-        this.employee = employee;
+        this.employee = employee;//ログインした時に情報がemployeeに入る　このクラス事態に持たせる
 
         List<SimpleGrantedAuthority> authorities = new ArrayList<SimpleGrantedAuthority>();
         authorities.add(new SimpleGrantedAuthority(employee.getRole().toString()));
@@ -25,7 +25,7 @@ public class UserDetail implements UserDetails {
     }
 
     public Employee getEmployee() {
-        return employee;
+        return employee;//20行目に戻る
     }
 
     @Override
