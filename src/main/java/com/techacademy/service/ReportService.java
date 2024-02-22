@@ -106,6 +106,22 @@ public class ReportService {
         return reportRepository.existsByEmployeeAndReportDate(employee, reportDate);
     }
 
+    public boolean isUpdateDateError(Employee employee,LocalDate reportDate, Report oldReport) {
+      //日報テーブルに、「画面で表示中の従業員 かつ 入力した日付」の日報データが存在する場合エラー
+        //※画面で表示中の日報データを除いたものについて、上記のチェックを行なうものとします
+        List<Report> reportList =reportRepository.findByEmployee(employee);
+        if (reportList != null && oldReport.getEmployee().getCode().equals(employee.getCode())
+                && !oldReport.getReportDate().equals(reportDate)) {
+            for(Report report:reportList) {
+                if(report.getReportDate().equals(reportDate)) {
+                    return true;
+                }
+            }
+
+        }
+        return false;
+    }
+
 
 }
 

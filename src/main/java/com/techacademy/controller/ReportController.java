@@ -3,6 +3,7 @@ package com.techacademy.controller;
 
 
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -92,11 +93,8 @@ public class ReportController {
     @PostMapping(value = "/{id}/update")
     public String update(@PathVariable Integer id,@Validated Report report, BindingResult res, Model model,@AuthenticationPrincipal UserDetail userDetail) {
 
-        //日付変更があるか
-        userDetail.getEmployee();//userDetailがログインユーザの情報をもっているから従業員の情報をもらう
-        Employee date =userDetail. getEmployee();//ログインした従業員情報がdateに詰め込む
-        date.getUpdatedAt();//dateから登録日を取り出す
-       // LocalDateTime ldt = date.getUpdatedAt();//roleに権限情報を詰め込む
+
+
         // 入力チェック
         if (res.hasErrors()) {
             return edit(null,model,report,userDetail);
@@ -104,21 +102,26 @@ public class ReportController {
         }
 
        // 108～１２１　上記完成で消去
+        //日付変更があるか
+        //日報テーブルに、「画面で表示中の従業員 かつ 入力した日付」の日報データが存在する場合エラー
+        //※画面で表示中の日報データを除いたものについて、上記のチェックを行なうものとします
+        userDetail.getEmployee();//userDetailがログインユーザの情報をもっているから従業員の情報をもらう
+        Employee employee =userDetail. getEmployee();//ログインした従業員情報をdateに詰め込む
+        LocalDate reportDate =report.getReportDate();
+        Report oldReport = reportService.findById(id);
 
-        boolean isReportDateError = reportService.existsByEmployeeAndReportDate(userDetail.getEmployee(), report.getReportDate());
+
+
+
+        boolean isReportDateError = reportService.isUpdateDateError(employee, reportDate,oldReport);
         if(isReportDateError) {
             model.addAttribute(ErrorMessage.getErrorName(ErrorKinds.DATECHECK_ERROR), ErrorMessage.getErrorValue(ErrorKinds.DATECHECK_ERROR));
 
-        }
 
-        if (isReportDateError || res.hasErrors()) {
             return edit(id,model,report,userDetail);
         }
 
-        if(reportService.existsByEmployeeAndReportDate(userDetail.getEmployee(), report.getReportDate())) {
-            model.addAttribute(ErrorMessage.getErrorName(ErrorKinds.DATECHECK_ERROR), ErrorMessage.getErrorValue(ErrorKinds.DATECHECK_ERROR));
-            return edit(id,model,report,userDetail);
-        }
+
         report.setId(id);
         ErrorKinds result = reportService.update(report);
 
