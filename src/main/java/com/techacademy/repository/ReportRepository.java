@@ -9,7 +9,7 @@ import com.techacademy.entity.Employee;
 import com.techacademy.entity.Report;
 
 public interface ReportRepository extends JpaRepository<Report, Integer> {//extendsでJpaRepositoryを拡張している
-    boolean existsByEmployeeAndReportDate(Employee employee,LocalDate reportDate);
+    boolean existsByEmployeeAndReportDate(Employee employee,LocalDate reportDate);//existsByEmployeeAndReportDateはサービス参照
     List<Report> findByEmployee(Employee employee);
 
 }

@@ -49,7 +49,7 @@ public class ReportController {
         //一般ユーザーと管理者それぞれの場合
         if(role == Employee.Role.GENERAL) {
 
-            model.addAttribute("listSize", reportService.findByEmployee(emp).size());//
+            model.addAttribute("listSize", reportService.findByEmployee(emp).size());//ログインしたユーザーの日報の件数（size）をもってきている
             model.addAttribute("reportList", reportService.findByEmployee(emp));//ログインしたユーザーの日報一覧をもってきている
         }else {
             model.addAttribute("listSize", reportService.findAll().size());
@@ -100,15 +100,12 @@ public class ReportController {
             return edit(null,model,report,userDetail);
 
         }
+//比較材料の収集　いるもの　ログインしたユーザーの情報、reportに入っている日付情報、DBにある現状の日報
 
-       // 108～１２１　上記完成で消去
-        //日付変更があるか
-        //日報テーブルに、「画面で表示中の従業員 かつ 入力した日付」の日報データが存在する場合エラー
-        //※画面で表示中の日報データを除いたものについて、上記のチェックを行なうものとします
-        userDetail.getEmployee();//userDetailがログインユーザの情報をもっているから従業員の情報をもらう
-        Employee employee =userDetail. getEmployee();//ログインした従業員情報をdateに詰め込む
-        LocalDate reportDate =report.getReportDate();
-        Report oldReport = reportService.findById(id);
+        userDetail.getEmployee();//userDetailがログインユーザの情報をもっているから従業員の情報をもらう　
+        Employee employee =userDetail.getEmployee();//ログインした従業員情報をemployeeに詰め込む　※記入の要約　クラス名　好きな名前　⁼＝　実際の処理内容（オブジェクト名。クラス名の中にあったメソッド）
+        LocalDate reportDate =report.getReportDate();//reportに日付情報をもっているからreportDateに詰め込む
+        Report oldReport = reportService.findById(id);//findById(id)で主キーから紐づけされた日報をoldReportに入れる
 
 
 

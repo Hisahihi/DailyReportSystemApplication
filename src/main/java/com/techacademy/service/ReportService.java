@@ -102,10 +102,12 @@ public class ReportService {
         return report;
     }
 
+    //新規登録画面日付入力チェックのためのメソッド
     public boolean existsByEmployeeAndReportDate(Employee employee,LocalDate reportDate) {
         return reportRepository.existsByEmployeeAndReportDate(employee, reportDate);
     }
 
+    //日報更新画面日付チェックのためのメソッド
     public boolean isUpdateDateError(Employee employee,LocalDate reportDate, Report oldReport) {
       //日報テーブルに、「画面で表示中の従業員 かつ 入力した日付」の日報データが存在する場合エラー
         //※画面で表示中の日報データを除いたものについて、上記のチェックを行なうものとします
