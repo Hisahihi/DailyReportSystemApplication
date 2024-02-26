@@ -25,7 +25,6 @@ RUN apt -y install apache2
 RUN a2enmod rewrite
 RUN a2enmod ssl
 RUN a2ensite default-ssl
-COPY index.html /var/www/html
 RUN sed -i -e "s/^<\/VirtualHost>/RewriteEngine on/" /etc/apache2/sites-available/000-default.conf
 RUN echo 'RewriteCond %{HTTPS} off' >> /etc/apache2/sites-available/000-default.conf
 RUN echo 'RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L]' >> /etc/apache2/sites-available/000-default.conf

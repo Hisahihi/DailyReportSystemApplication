@@ -28,7 +28,7 @@ RUN apt -y install mysql-server-8.0
 RUN usermod -d /var/lib/mysql mysql
 RUN sed -i -e "s/^bind-address\s*=\s*127.0.0.1/bind-address = 0.0.0.0/" /etc/mysql/mysql.conf.d/mysqld.cnf
 COPY mysql_setup.sql /tmp/
-RUN mysqld_safe & sleep 5 && cat /tmp/mysql_setup.sql | mysql
+RUN mysqld_safe & sleep 10 && cat /tmp/mysql_setup.sql | mysql
 EXPOSE 3306
 
 # 7. 一般ユーザmyuserの作成およびmyuserでログイン
