@@ -4,8 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -21,12 +20,12 @@ import org.springframework.transaction.annotation.Transactional;
 public class ReportService {
 
     private final ReportRepository reportRepository;
-    private final PasswordEncoder passwordEncoder;
+
 
     @Autowired
     public ReportService(ReportRepository reportRepository, PasswordEncoder passwordEncoder) {
         this.reportRepository = reportRepository;
-        this.passwordEncoder = passwordEncoder;
+
     }
 
     // 従業員保存
