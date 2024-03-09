@@ -7,7 +7,6 @@ import java.util.Optional;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.techacademy.constants.ErrorKinds;
@@ -23,7 +22,7 @@ public class ReportService {
 
 
     @Autowired
-    public ReportService(ReportRepository reportRepository, PasswordEncoder passwordEncoder) {
+    public ReportService(ReportRepository reportRepository) {
         this.reportRepository = reportRepository;
 
     }
@@ -77,7 +76,7 @@ public class ReportService {
         return ErrorKinds.SUCCESS;
     }
 
-    // 従業員一覧表示処理
+    // 日報一覧表示処理
     public List<Report> findAll() {
         return reportRepository.findAll();
     }

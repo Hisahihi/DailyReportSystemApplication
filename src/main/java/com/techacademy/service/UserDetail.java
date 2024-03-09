@@ -17,7 +17,7 @@ public class UserDetail implements UserDetails {
     private final List<SimpleGrantedAuthority> authorities;
 
     public UserDetail(Employee employee) {
-        this.employee = employee;//ログインした時に情報がemployeeに入る　このクラス事態に持たせる
+        this.employee = employee;//ログインした時に情報がemployeeに入る　このクラスに持たせる
 
         List<SimpleGrantedAuthority> authorities = new ArrayList<SimpleGrantedAuthority>();
         authorities.add(new SimpleGrantedAuthority(employee.getRole().toString()));

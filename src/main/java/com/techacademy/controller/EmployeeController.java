@@ -104,6 +104,7 @@ public class EmployeeController {
     // 従業員新規登録処理
     @PostMapping(value = "/add")
     public String add(@Validated Employee employee, BindingResult res, Model model) {
+        //@Validatedでエンティティの定義に基づいてエラーがないかチェック　その結果をBindingResultのresに入れる
 
         // パスワード空白チェック
         /*

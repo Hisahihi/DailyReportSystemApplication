@@ -12,6 +12,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotEmpty;
@@ -72,7 +73,12 @@ public class Employee {
     @Column(nullable = false)
     private LocalDateTime updatedAt;
 
+    //日報テーブルとの紐付け
     @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL)
     private List<Report> reportList;
+
+    //住所録テーブルとの紐付け
+    @OneToMany(mappedBy = "employee", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    private List<AddressBook> addressBookList;
 
 }
