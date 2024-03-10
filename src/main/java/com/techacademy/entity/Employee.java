@@ -78,7 +78,7 @@ public class Employee {
     private List<Report> reportList;
 
     //住所録テーブルとの紐付け
-    @OneToMany(mappedBy = "employee", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL)
     private List<AddressBook> addressBookList;
 
 }

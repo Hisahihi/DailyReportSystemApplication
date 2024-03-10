@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.techacademy.constants.ErrorKinds;
 import com.techacademy.entity.AddressBook;
+import com.techacademy.entity.Employee;
 import com.techacademy.repository.AddressBookRepository;
 
 @Service
@@ -34,8 +35,12 @@ public class AddressBookService {
     //住所録更新
     @Transactional
     public ErrorKinds update(AddressBook addressBook) {
-        AddressBook info =findById(addressBook.getCode());
-        addressBook.setDeleteFlg(false);
+
+        AddressBook info =findById(addressBook.getId());
+        addressBook.setEmployee(info.getEmployee());
+
+
+        addressBook.setDeleteFlg(info.isDeleteFlg());
         LocalDateTime now = LocalDateTime.now();
 
         addressBook.setCreatedAt(info.getCreatedAt());
@@ -45,9 +50,27 @@ public class AddressBookService {
         return ErrorKinds.SUCCESS;
     }
     //住所録削除
+    @Transactional
+    public ErrorKinds delete(Integer id, UserDetail userDetail) {
+        // 自分を削除しようとした場合はエラーメッセージを表示
+        if (id.equals(userDetail.getEmployee().getCode())) {
+            return ErrorKinds.LOGINCHECK_ERROR;
+        }
+        AddressBook addressBook = findById(id);
+        LocalDateTime now = LocalDateTime.now();
+        addressBook.setUpdatedAt(now);
+        addressBook.setDeleteFlg(true);
+
+        return ErrorKinds.SUCCESS;
+    }
+
     //住所録の一覧表示
-    public List<AddressBook>findAll(){
+    public List<AddressBook> findAll(){
         return addressBookRepository.findAll();
+    }
+
+    public List<AddressBook> findByEmployee(Employee employee){
+        return addressBookRepository.findByEmployee(employee);
     }
 
     //従業員の情報から住所録を検索

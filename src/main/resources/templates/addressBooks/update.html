@@ -18,7 +18,7 @@
                 <div class="col-xl-12">
                     <div class="card">
                         <div class="card-body">
-                            <form th:action="@{/addressBooks/{code}/update(code=${addressBook.code})}" th:object="${addressBook}" th:method="post">
+                            <form th:action="@{/addressBooks/{id}/update(id=${addressBook.id})}" th:object="${addressBook}" th:method="post">
                                 <div class="wizard wizard-success mb-4">
                                      <label class="form-label" for="name">氏名</label>
                                       <p class="mb-1"></p>

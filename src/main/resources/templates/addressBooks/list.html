@@ -29,7 +29,7 @@
                                         <tr th:each="addressBooks:${addressBookList}">
                                             <td class="align-middle" th:text="${addressBooks.employee.name}"></td>
                                             <td class="align-middle" th:text="${addressBooks.postalNumber}"></td>
-                                            <td class="align-middle"><a th:href="@{/addressBooks/{code}/(code=${addressBooks.code})}" class="btn btn-primary">詳細</a></td>
+                                            <td class="align-middle"><a th:href="@{/addressBooks/{id}/(id=${addressBooks.id})}" class="btn btn-primary">詳細</a></td>
                                         </tr>
                                     </tbody>
                                 </table>

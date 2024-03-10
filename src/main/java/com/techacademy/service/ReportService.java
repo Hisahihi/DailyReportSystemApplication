@@ -27,7 +27,7 @@ public class ReportService {
 
     }
 
-    // 従業員保存
+    // 日報保存
     @Transactional
     public ErrorKinds save(Report report) {
 
@@ -39,7 +39,7 @@ public class ReportService {
         return ErrorKinds.SUCCESS;
     }
 
-    // 従業員更新
+    // 日報更新
     @Transactional
     public ErrorKinds update(Report report) {
 

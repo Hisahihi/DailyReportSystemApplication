@@ -22,14 +22,14 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "addressBooks")
+@Table(name = "address_books")
 @SQLRestriction("delete_flg = false")
 public class AddressBook {
 
     //ID（主キー）
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer code;//呼び出しはcode
+    private Integer id;//呼び出しはcode
 
 
     //郵便番号
@@ -67,9 +67,10 @@ public class AddressBook {
     private LocalDateTime updatedAt;
 
     //従業員番号
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "employee_id", nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "employee_code", referencedColumnName = "code", nullable = false)
     private Employee employee;
+
 
 
 }
