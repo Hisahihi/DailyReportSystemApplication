@@ -6,3 +6,7 @@ INSERT INTO daily_report_system.reports(report_date,title,content,employee_code,
      VALUES (CURRENT_TIMESTAMP,"煌木　太郎の記載、タイトル","煌木　太郎の記載、内容",1,0,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP);
 INSERT INTO daily_report_system.reports(report_date,title,content,employee_code,delete_flg,created_at,updated_at)
      VALUES (CURRENT_TIMESTAMP,"田中　太郎の記載、タイトル","田中　太郎の記載、内容",2,0,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP);
+INSERT INTO daily_report_system.address_books(postal_number,address,phone_number,email,delete_flg,created_at,updated_at,employee_id)
+     VALUES ('0000001',"北海道札幌市中央区",'09012341234',"aaaaa@gmail.com",0,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,1);
+INSERT INTO daily_report_system.address_books(postal_number,address,phone_number,email,delete_flg,created_at,updated_at,employee_id)
+     VALUES ('0000002',"北海道札幌市中央区",'09012341235',"bbbbb@gmail.com",0,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,2);

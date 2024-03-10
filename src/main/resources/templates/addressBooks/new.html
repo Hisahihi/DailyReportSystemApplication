@@ -23,7 +23,7 @@
                                       <label class="form-label" >氏名</label>
                                       <p class="mb-1"></p>
                                         <div class="col-md-7">
-                                        <label><p class="align-middle">Test</p></label>
+                                        <label><p class="align-middle" th:text="${addressBook.employee.name}"></p></label>
                                         <!--input class="form-control" type="date" th:field="*{reportDate}" th:errorclass="err" id="reportDate">
                                         <span th:errors="*{reportDate}" class="text-danger"></span>
                                         <span th:if="${reportDateError} neq null" th:text="${reportDateError}" class="text-danger"></span-->

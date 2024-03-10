@@ -43,7 +43,7 @@ public class ReportService {
     @Transactional
     public ErrorKinds update(Report report) {
 
-        // ・テーブルから既存のパスワードを取得する（ユーザが入力した情報の中の Id をキーとして取得
+        //ユーザが入力した情報の中の Id をキーとして取得
         Report info = findById(report.getId());
         // info変数にDBに登録された情報が入っている
 

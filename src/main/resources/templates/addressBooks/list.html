@@ -11,7 +11,7 @@
         <div class="mt-3 h-100 col-sm-10">
             <!-- コンテンツ -->
             <div class="container-fluid p-0">
-                <h1 class="h3 mb-3">日報 一覧</h1>
+                <h1 class="h3 mb-3">住所録 一覧</h1>
 
                 <div class="row">
                     <div class="col-xl-11">
@@ -21,15 +21,15 @@
                                     <thead>
                                         <tr>
                                             <th>氏名</th>
-                                            <th>住所</th>
+                                            <th>郵便番号</th>
                                             <th></th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr th:each="addressBooks:${addressBookList}">
                                             <td class="align-middle" th:text="${addressBooks.employee.name}"></td>
-                                            <td class="align-middle" th:text="${addressBooks.address}"></td>
-                                            <td class="align-middle"><a th:href="@{/addressBooks/{id}/(id=${addressBooks.id})}" class="btn btn-primary">詳細</a></td>
+                                            <td class="align-middle" th:text="${addressBooks.postalNumber}"></td>
+                                            <td class="align-middle"><a th:href="@{/addressBooks/{code}/(code=${addressBooks.code})}" class="btn btn-primary">詳細</a></td>
                                         </tr>
                                     </tbody>
                                 </table>
